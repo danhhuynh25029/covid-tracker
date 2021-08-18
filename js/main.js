@@ -10,6 +10,7 @@ xmlhttp.onreadystatechange = function() {
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
 var str = `<tr>
+    <th>#</th>
     <th>Country</th>
     <th>TotalConfirmed</th>
     <th>TotalDeaths</th>
@@ -21,7 +22,7 @@ function myFunction(json) {
         var Country = json["Countries"][i]["Country"];
         var Confirmed = json["Countries"][i]["TotalConfirmed"];
         var Death = json["Countries"][i]["TotalDeaths"];
-        str = str +  `<tr><td>${Country}</td><td>${Confirmed}</td><td>${Death}</td></tr>`;
+        str = str +  `<tr><td>${i+1}</td><td>${Country}</td><td>${Confirmed}</td><td>${Death}</td></tr>`;
         document.getElementById("content").innerHTML=str;
     }
 }
