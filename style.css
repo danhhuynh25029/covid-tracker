@@ -1,0 +1,14 @@
+*{
+	margin: 0px;
+	padding : 0px;
+}
+h1{
+	text-align: center;
+}
+table{
+	width: 70%;
+	/*text-align: center;*/
+	border: 1px solid black;
+	margin: auto;
+}
+
