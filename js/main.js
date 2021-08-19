@@ -15,7 +15,7 @@ function Country(id,code,date,name,confirmed,death){
     this.name = name;
     this.confirmed = confirmed;
     this.death = death;
-    this.date = new Date(date);
+    this.date = new Date(date).toLocaleString('en-US');
     this.showInfor = function(){
         // return `<tr>
         //             <td>${this.id}</td>
@@ -47,7 +47,7 @@ var length = 0;
 function Display(json) {
     var GLOBAL = `
         <li><h7><b>GLOBAL</b></h7></li>
-        <li><b>Date</b> : ${new Date(json["Global"]["Date"])}</li>
+        <li><b>Date</b> : ${new Date(json["Global"]["Date"]).toLocaleString('en-US')}</li>
         <li><b>TotalConfirmed</b> : ${json["Global"]["TotalConfirmed"]}</li>
         <li><b>TotalDeaths</b> : ${json["Global"]["TotalDeaths"]}</li>
     `
