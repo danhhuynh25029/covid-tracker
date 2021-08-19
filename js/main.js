@@ -47,6 +47,7 @@ var length = 0;
 function Display(json) {
     var GLOBAL = `
         <li><h7><b>GLOBAL</b></h7></li>
+        <li><b>Date</b> : ${new Date(json["Global"]["Date"])}</li>
         <li><b>TotalConfirmed</b> : ${json["Global"]["TotalConfirmed"]}</li>
         <li><b>TotalDeaths</b> : ${json["Global"]["TotalDeaths"]}</li>
     `
