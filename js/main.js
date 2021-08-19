@@ -9,12 +9,13 @@ xmlhttp.onreadystatechange = function() {
 };
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
-function Country(id,code,name,confirmed,death){
+function Country(id,code,date,name,confirmed,death){
     this.id = id;
     this.code = code;
     this.name = name;
     this.confirmed = confirmed;
     this.death = death;
+    this.date = new Date(date);
     this.showInfor = function(){
         // return `<tr>
         //             <td>${this.id}</td>
@@ -29,6 +30,7 @@ function Country(id,code,name,confirmed,death){
             <img src = "https://www.countryflags.io/${this.code}/flat/64.png" >
           </div>
           <ul class="list-group list-group-flush">
+            <li class="list-group-item"> <h7><b>Date</b></h7> : ${this.date}</li>
             <li class="list-group-item"> <h7><b>TotalConfirmed</b></h7> : ${this.confirmed}</li>
             <li class="list-group-item"> <h7><b>TotalDeaths</b></h7> : ${this.death}</li>
           </ul>
@@ -39,16 +41,23 @@ function Country(id,code,name,confirmed,death){
 var str = '';
 var listCountry = [];
 var nameCountry = [];
+
 // var countryCode = [];
 var length = 0;
 function Display(json) {
+    var GLOBAL = `
+        <li><h7><b>GLOBAL</b></h7></li>
+        <li><b>TotalConfirmed</b> : ${json["Global"]["TotalConfirmed"]}</li>
+        <li><b>TotalDeaths</b> : ${json["Global"]["TotalDeaths"]}</li>
+    `
     length = json["Countries"]["length"];
     for(var i = 0 ; i < length ; i++){
         var Name = json["Countries"][i]["Country"];
         var Confirmed = json["Countries"][i]["TotalConfirmed"];
         var Death = json["Countries"][i]["TotalDeaths"];
         var code = json["Countries"][i]["CountryCode"];
-        listCountry.push(new Country(i+1,code,Name,Confirmed,Death));
+        var date = json["Countries"][i]["Date"];
+        listCountry.push(new Country(i+1,code,date,Name,Confirmed,Death));
         nameCountry.push(Name);
         // countryCode.push(json["Countries"][i]["CountryCode"]);
     }
@@ -58,8 +67,9 @@ function Display(json) {
         listOption = listOption + `<option>${nameCountry[i]}</option>`
     }
     document.getElementById("item").innerHTML = listOption;
-    document.getElementById("content").innerHTML=str;
-    console.log(countryCode);
+    document.getElementById("global").innerHTML = GLOBAL;
+    document.getElementById("content").innerHTML= str;
+    console.log(json["Global"]);
    
 }
 function getValue(){
