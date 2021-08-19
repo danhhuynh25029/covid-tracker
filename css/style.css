@@ -13,6 +13,7 @@ div {
 }
 .card{
 	text-align: none;
+	margin-top: 5px;
 }
 ul li{
 	text-align: left;
