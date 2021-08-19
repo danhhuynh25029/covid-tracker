@@ -9,8 +9,9 @@ xmlhttp.onreadystatechange = function() {
 };
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
-function Country(id,name,confirmed,death){
+function Country(id,code,name,confirmed,death){
     this.id = id;
+    this.code = code;
     this.name = name;
     this.confirmed = confirmed;
     this.death = death;
@@ -22,29 +23,23 @@ function Country(id,name,confirmed,death){
         //             <td>${this.death}</td>
         //         </tr>`
         return `
-        <div class="card" style="width: 15rem;">
+        <div class="card" style="width: 17rem;">
           <div class="card-body">
             <h5 class="card-title">${this.name}</h5>
+            <img src = "https://www.countryflags.io/${this.code}/flat/64.png" >
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">${this.id}</li>
-            <li class="list-group-item">${this.confirmed}</li>
-            <li class="list-group-item">${this.death}</li>
+            <li class="list-group-item"> <h7><b>TotalConfirmed</b></h7> : ${this.confirmed}</li>
+            <li class="list-group-item"> <h7><b>TotalDeaths</b></h7> : ${this.death}</li>
           </ul>
-        </div>
-
-            `
+        </div>`
     }
 }
-// var str = `<tr>
-//     <th>#</th>
-//         <th>Country</th>
-//         <th>TotalConfirmed</th>
-//         <th>TotalDeaths</th>
-//     </tr>`;
+
 var str = '';
 var listCountry = [];
 var nameCountry = [];
+// var countryCode = [];
 var length = 0;
 function Display(json) {
     length = json["Countries"]["length"];
@@ -52,8 +47,10 @@ function Display(json) {
         var Name = json["Countries"][i]["Country"];
         var Confirmed = json["Countries"][i]["TotalConfirmed"];
         var Death = json["Countries"][i]["TotalDeaths"];
-        listCountry.push(new Country(i+1,Name,Confirmed,Death));
+        var code = json["Countries"][i]["CountryCode"];
+        listCountry.push(new Country(i+1,code,Name,Confirmed,Death));
         nameCountry.push(Name);
+        // countryCode.push(json["Countries"][i]["CountryCode"]);
     }
     var listOption = "";
     for(var i = 0 ; i < length;i++){
@@ -62,24 +59,26 @@ function Display(json) {
     }
     document.getElementById("item").innerHTML = listOption;
     document.getElementById("content").innerHTML=str;
+    console.log(countryCode);
    
 }
 function getValue(){
     var choose =  `<th>#</th>
-                <th>Country</th>
-                <th>TotalConfirmed</th>
-                <th>TotalDeaths</th>
-            </tr>`
+                    <th>Country</th>
+                    <th>TotalConfirmed</th>
+                    <th>TotalDeaths</th>
+                   </tr>`
     var select = document.getElementById("item");
     var value = select.options[select.selectedIndex].value;
     for(var i = 0 ; i < length ; i++){
         if(listCountry[i].name == value){
             choose = choose + `<tr>
-                                <td>${listCountry[i].id}</td>
+                                <td><img src = "https://www.countryflags.io/${listCountry[i].code}/flat/32.png" ></td>
                                 <td>${listCountry[i].name}</td>
                                 <td>${listCountry[i].confirmed}</td>
                                 <td>${listCountry[i].death}</td>
                                </tr>`;
+            break;
         }
     }
     document.getElementById("choose").innerHTML = choose;
